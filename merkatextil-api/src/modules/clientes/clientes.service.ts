@@ -103,27 +103,6 @@ export class ClientesService {
     }
   }
 
-  // async delete(nif: string) {
-  //   try {
-  //     const cliente = await this.clienteRepository.findOne({
-  //       where: { nif },
-  //       relations: { carrito: true },
-  //     });
-
-  //     // const carrito = await this.carritoRepository.findOne({
-  //     //   where: { id: cliente.carrito.id },
-  //     // });
-
-  //     // if (!cliente) {
-  //     //   throw new NotFoundException(`Fallo al buscar cliente con NIF ${nif}`);
-  //     // }
-  //     await this.clienteRepository.remove(cliente);
-  //   } catch (error) {
-  //     throw new InternalServerErrorException(
-  //       `Fallo al eliminar cliente con NIF ${nif}. ${error}`,
-  //     );
-  //   }
-  // }
   async delete(nif: string) {
     try {
       const cliente = await this.clienteRepository.findOne({
@@ -131,7 +110,6 @@ export class ClientesService {
         relations: { carrito: true },
       });
 
-      // La eliminación en cascada se manejará automáticamente por TypeORM debido a la configuración cascade y onDelete en las entidades
       await this.clienteRepository.remove(cliente);
     } catch (error) {
       throw new InternalServerErrorException(

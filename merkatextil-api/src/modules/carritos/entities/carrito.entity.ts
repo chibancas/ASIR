@@ -26,7 +26,7 @@ export class Carrito {
 
   @OneToOne(() => Cliente, (cliente) => cliente.carrito, {
     onDelete: 'CASCADE',
-    cascade: true,
+    // cascade: true,
   })
   @Type(() => Carrito)
   @JoinColumn({ name: 'id_cliente' })
@@ -35,4 +35,10 @@ export class Carrito {
   @OneToMany(() => Compra, (compra) => compra.carrito)
   @Type(() => Compra)
   compras: Compra[];
+
+  // getSubtotal(): number {
+  //   return this.productos.reduce((subtotal, producto) => {
+  //     return subtotal + producto.precio * this.cantidad;
+  //   }, 0);
+  // }
 }

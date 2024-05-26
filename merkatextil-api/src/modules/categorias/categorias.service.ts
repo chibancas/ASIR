@@ -28,7 +28,9 @@ export class CategoriasService {
   async findAll() {
     // return `This action returns all categorias`;
     try {
-      const categorias = await this.categoriaRepository.find();
+      const categorias = await this.categoriaRepository.find({
+        relations: { productos: true },
+      });
       return categorias;
     } catch (error) {
       throw new InternalServerErrorException('Fallo al listar categorias.');
@@ -40,6 +42,7 @@ export class CategoriasService {
     try {
       const categoria = await this.categoriaRepository.findOne({
         where: { id },
+        relations: { productos: true },
       });
       return categoria;
     } catch (error) {
@@ -54,6 +57,7 @@ export class CategoriasService {
     try {
       const categoria = await this.categoriaRepository.findOne({
         where: { id },
+        relations: { productos: true },
       });
       this.categoriaRepository.merge(categoria, updateCategoriaDto);
       await this.categoriaRepository.save(categoria);

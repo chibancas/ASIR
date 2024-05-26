@@ -16,11 +16,8 @@ export class Compra {
   @Column('decimal', { precision: 10, scale: 2 })
   importe: number;
 
-  @Column('date')
-  fecha_compra: Date;
-
   @ManyToOne(() => Carrito, (carrito) => carrito.compras)
-  @JoinColumn()
+  @JoinColumn({ name: 'id_carrito' })
   carrito: Carrito;
 
   @CreateDateColumn()

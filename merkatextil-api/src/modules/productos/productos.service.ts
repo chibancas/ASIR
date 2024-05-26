@@ -9,64 +9,75 @@ import { Repository } from 'typeorm';
 export class ProductosService {
   constructor(
     @InjectRepository(Producto)
-    private readonly productoService: Repository<Producto>
-  ) { }
+    private readonly productoService: Repository<Producto>,
+  ) {}
   async create(createProductoDto: CreateProductoDto) {
     // return 'This action adds a new producto';
     try {
-      const producto = this.productoService.create(createProductoDto)
-      await this.productoService.save(producto)
-      return producto
+      const producto = this.productoService.create(createProductoDto);
+      await this.productoService.save(producto);
+      return producto;
     } catch (error) {
-      throw new InternalServerErrorException(`Fallo al crear producto ${createProductoDto.nombre}.`)
+      throw new InternalServerErrorException(
+        `Fallo al crear producto ${createProductoDto.nombre}.`,
+      );
     }
   }
 
   async findAll() {
     // return `This action returns all productos`;
     try {
-      const productos = await this.productoService.find()
-      return productos
+      const productos = await this.productoService.find({
+        relations: {
+          proveedor: true,
+          categoria: true,
+          carrito: true,
+        },
+      });
+      return productos;
     } catch (error) {
-      throw new InternalServerErrorException('Fallo al listar propductos.')
+      throw new InternalServerErrorException('Fallo al listar propductos.');
     }
   }
 
   async findOne(id: string) {
     // return `This action returns a #${id} producto`;
     try {
-      const producto=await this.productoService.findOne({
-        where:{id}
-      })
-      return producto
-    } catch (error) {
-      
-    }
+      const producto = await this.productoService.findOne({
+        relations: {
+          proveedor: true,
+          categoria: true,
+          // carrito: true,
+        },
+        where: { id },
+      });
+      return producto;
+    } catch (error) {}
   }
 
   async update(id: string, updateProductoDto: UpdateProductoDto) {
     // return `This action updates a #${id} producto`;
     try {
-      const producto= await this.productoService.findOne({
-        where:{id}
-      })
-      this.productoService.merge(producto,updateProductoDto)
-      await this.productoService.save(producto)
-      return producto
+      const producto = await this.productoService.findOne({
+        where: { id },
+      });
+      this.productoService.merge(producto, updateProductoDto);
+      await this.productoService.save(producto);
+      return producto;
     } catch (error) {
-      throw new InternalServerErrorException()
+      throw new InternalServerErrorException();
     }
   }
 
   async delete(id: string) {
     // return `This action removes a #${id} producto`;
     try {
-      const producto= await this.productoService.findOne({
-        where:{id}
-      })
-      await this.productoService.delete(producto)
+      const producto = await this.productoService.findOne({
+        where: { id },
+      });
+      await this.productoService.delete(producto);
     } catch (error) {
-      throw new InternalServerErrorException()
+      throw new InternalServerErrorException();
     }
   }
 }

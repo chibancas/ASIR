@@ -1,23 +1,25 @@
-import { IsNumber, IsString } from "class-validator"
+import { IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+import { Categoria } from 'src/modules/categorias/entities/categoria.entity';
+import { Proveedore } from 'src/modules/proveedores/entities/proveedore.entity';
 
 export class CreateProductoDto {
+  @IsString()
+  nombre: string;
 
-    @IsString()
-    id: string
+  @IsNumber()
+  precio: number;
 
-    @IsString()
-    nombre: string
+  @IsNumber()
+  @IsOptional()
+  existencias?: number;
 
-    @IsNumber()
-    precio: number
+  @IsString()
+  @IsOptional()
+  descripcion?: string;
 
-    @IsNumber()
-    existencias?: number
+  @IsString()
+  proveedor: Proveedore;
 
-    @IsString()
-    descripcion?: string
-
-    // proveedor:Proveedor foranea
-    // categoria:Categoria foranea
-
+  @IsUUID()
+  categoria: Categoria;
 }

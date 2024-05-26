@@ -43,7 +43,9 @@ export class Cliente {
   updatedAt: Date;
 
   @OneToOne(() => Carrito, (carrito) => carrito.cliente, {
-    onDelete: 'CASCADE', // Ayuda a mantener la integridad referencial,
+    onDelete: 'CASCADE',
+    cascade: true,
+    eager: true,
   })
   @Type(() => Carrito)
   @Exclude()

@@ -15,6 +15,12 @@ export class Proveedore {
   @Column('text', { unique: true, nullable: true })
   telefono?: string;
 
-  @OneToMany(() => Producto, (producto) => producto.proveedor)
+  @Column('text', { unique: true, nullable: true })
+  email?: string;
+
+  @OneToMany(() => Producto, (producto) => producto.proveedor, {
+    cascade: true,
+    eager: true,
+  })
   productos: Producto[];
 }

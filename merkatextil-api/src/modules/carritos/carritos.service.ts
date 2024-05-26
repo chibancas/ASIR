@@ -18,6 +18,12 @@ export class CarritosService {
     private readonly clienteService: ClientesService,
   ) {}
 
+  private calculateSubtotal(carrito: Carrito): number {
+    return carrito.productos.reduce((subtotal, producto) => {
+      return subtotal + producto.precio * carrito.cantidad;
+    }, 0);
+  }
+
   async create(createCarritoDto: CreateCarritoDto) {
     try {
       const { cliente, ...campos } = createCarritoDto;
@@ -37,7 +43,11 @@ export class CarritosService {
   async findAll() {
     try {
       const carritos = await this.carritoRepository.find({
-        relations: { cliente: true },
+        relations: {
+          cliente: true,
+          compras: true,
+          productos: true,
+        },
       });
       return carritos;
     } catch (error) {
@@ -51,7 +61,7 @@ export class CarritosService {
     try {
       const carrito = await this.carritoRepository.findOne({
         where: { id },
-        relations: { cliente: true },
+        relations: { cliente: true, compras: true },
       });
       if (!carrito) {
         throw new NotFoundException(`Carrito no encontrado con id ${id}`);
@@ -68,7 +78,7 @@ export class CarritosService {
     try {
       const carrito = await this.carritoRepository.findOne({
         where: { id },
-        relations: { cliente: true },
+        relations: { cliente: true, compras: true },
       });
       if (!carrito) {
         throw new NotFoundException(`Carrito no encontrado con id ${id}`);

@@ -9,9 +9,12 @@ export class Categoria {
   @Column('text', { unique: true, nullable: false })
   nombre: string;
 
-  @Column('text', { unique: true, nullable: true })
+  @Column('text', { unique: false, nullable: true })
   descripcion?: string;
 
-  @OneToMany(() => Producto, (producto) => producto.categoria)
+  @OneToMany(() => Producto, (producto) => producto.categoria, {
+    cascade: true,
+    eager: true,
+  })
   productos: Producto[];
 }
