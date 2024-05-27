@@ -26,7 +26,7 @@ export class CarritosService {
 
   async create(createCarritoDto: CreateCarritoDto) {
     try {
-      const { cliente, ...campos } = createCarritoDto;
+      const { cliente, productos, ...campos } = createCarritoDto;
       const carrito = this.carritoRepository.create({ ...campos });
       const clienteobj = await this.clienteService.findOne(cliente.nif);
       carrito.cliente = clienteobj;
@@ -61,7 +61,11 @@ export class CarritosService {
     try {
       const carrito = await this.carritoRepository.findOne({
         where: { id },
-        relations: { cliente: true, compras: true },
+        relations: {
+          cliente: true,
+          compras: true,
+          productos: true,
+        },
       });
       if (!carrito) {
         throw new NotFoundException(`Carrito no encontrado con id ${id}`);
@@ -74,16 +78,45 @@ export class CarritosService {
     }
   }
 
+  // async update(id: string, updateCarritoDto: UpdateCarritoDto) {
+  //   try {
+  //     const { cliente, productos, ...campos } = updateCarritoDto;
+  //     const carrito = await this.carritoRepository.findOne({
+  //       where: { id },
+  //       relations: { cliente: true, compras: true, productos: true },
+  //     });
+
+  //     const clienteobj = await this.clienteService.findOne(cliente.nif);
+  //     carrito.cliente = clienteobj;
+
+  //     this.carritoRepository.merge(carrito, campos);
+  //     await this.carritoRepository.save(carrito);
+  //     return carrito;
+  //   } catch (error) {
+  //     throw new InternalServerErrorException(
+  //       `Fallo al actualizar carrito. ${error.message}`,
+  //     );
+  //   }
+  // }
+
   async update(id: string, updateCarritoDto: UpdateCarritoDto) {
     try {
+      const { cliente, productos, ...campos } = updateCarritoDto;
       const carrito = await this.carritoRepository.findOne({
         where: { id },
-        relations: { cliente: true, compras: true },
+        relations: { cliente: true, compras: true, productos: true },
       });
+
       if (!carrito) {
         throw new NotFoundException(`Carrito no encontrado con id ${id}`);
       }
-      this.carritoRepository.merge(carrito, updateCarritoDto);
+
+      if (cliente) {
+        const clienteobj = await this.clienteService.findOne(cliente.nif);
+        carrito.cliente = clienteobj;
+      }
+
+      this.carritoRepository.merge(carrito, campos);
       await this.carritoRepository.save(carrito);
       return carrito;
     } catch (error) {

@@ -22,8 +22,9 @@ export class Carrito {
   @Column('numeric', { unique: false, nullable: true, default: 0 })
   cantidad?: number;
 
-  @ManyToMany(() => Producto, (producto) => producto.carrito)
-  productos: Producto[];
+  @ManyToMany(() => Producto, (producto) => producto.carrito, { cascade: true })
+  @JoinTable()
+  productos?: Producto[];
 
   @OneToOne(() => Cliente, (cliente) => cliente.carrito, {
     onDelete: 'CASCADE',
@@ -33,7 +34,7 @@ export class Carrito {
   @JoinColumn({ name: 'id_cliente' })
   cliente: Cliente;
 
-  @OneToMany(() => Compra, (compra) => compra.carrito)
+  @OneToMany(() => Compra, (compra) => compra.carrito, { cascade: true })
   @Type(() => Compra)
-  compras: Compra[];
+  compras?: Compra[];
 }
