@@ -45,7 +45,7 @@ export class Cliente {
   @OneToOne(() => Carrito, (carrito) => carrito.cliente, {
     onDelete: 'CASCADE',
     cascade: true,
-    eager: true,
+    // eager: true, esto carga las relaciones siempre que se llame da igual si es en una foranea
   })
   @Type(() => Carrito)
   @Exclude()

@@ -6,6 +6,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   // JoinColumn,
   ManyToMany,
   OneToMany,
@@ -35,10 +36,4 @@ export class Carrito {
   @OneToMany(() => Compra, (compra) => compra.carrito)
   @Type(() => Compra)
   compras: Compra[];
-
-  // getSubtotal(): number {
-  //   return this.productos.reduce((subtotal, producto) => {
-  //     return subtotal + producto.precio * this.cantidad;
-  //   }, 0);
-  // }
 }

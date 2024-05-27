@@ -17,7 +17,6 @@ export class Compra {
   importe: number;
 
   @ManyToOne(() => Carrito, (carrito) => carrito.compras)
-  @JoinColumn({ name: 'id_carrito' })
   carrito: Carrito;
 
   @CreateDateColumn()

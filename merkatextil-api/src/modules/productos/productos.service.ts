@@ -31,7 +31,7 @@ export class ProductosService {
         relations: {
           proveedor: true,
           categoria: true,
-          carrito: true,
+          // carrito: true,
         },
       });
       return productos;

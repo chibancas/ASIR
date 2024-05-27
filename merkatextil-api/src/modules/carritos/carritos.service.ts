@@ -18,11 +18,11 @@ export class CarritosService {
     private readonly clienteService: ClientesService,
   ) {}
 
-  private calculateSubtotal(carrito: Carrito): number {
-    return carrito.productos.reduce((subtotal, producto) => {
-      return subtotal + producto.precio * carrito.cantidad;
-    }, 0);
-  }
+  // private calculateSubtotal(carrito: Carrito): number {
+  //   return carrito.productos.reduce((subtotal, producto) => {
+  //     return subtotal + producto.precio * carrito.cantidad;
+  //   }, 0);
+  // }
 
   async create(createCarritoDto: CreateCarritoDto) {
     try {
